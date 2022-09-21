@@ -10,9 +10,11 @@ class TimeError
   end
 
   def error
-    return get_server_time - Time.now
+    return (Time.now - get_server_time).abs.round
   end
 
+  # There seems to be some unreproducable delay of around 0.26s
+  # which does lead to bugs
   private
 
   def get_server_time
@@ -23,6 +25,5 @@ class TimeError
 end
 
 # Net::HTTP is what is being replaced by a double
-
-time_error = TimeError.new(Net::HTTP)
-p time_error.error
+# e.g.
+# time_error = TimeError.new(Net::HTTP)
