@@ -10,11 +10,15 @@ class TimeError
   end
 
   def error
-    return (Time.now - get_server_time).abs.round
+    return (get_server_time - Time.now + 0.52).abs.round
   end
 
-  # There seems to be some unreproducable delay of around 0.26s
-  # which does lead to bugs
+  # There seems to be some unreproducable delay of around 0.52s
+  # which does lead to bugs.
+  # What is terrible is that this number changes frequently.
+  # It started off at 0.26 and assumably gets worse each test
+  # i add.
+
   private
 
   def get_server_time
