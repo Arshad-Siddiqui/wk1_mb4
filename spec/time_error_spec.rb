@@ -45,5 +45,20 @@ RSpec.describe TimeError do
         expect(time_error.error).to eq 5
       end
     end
+
+    context 'Delay 100s' do
+      it 'returns 100' do
+        api = double :fake_api
+        delay_100s = DateTime.now + Rational(100, 86400)
+        json = {
+          'utc_datetime' => delay_100s
+        }
+        json_string = JSON[json]
+        allow(api).to receive(:get).with(URI("https://worldtimeapi.org/api/ip"))
+        .and_return(json_string)
+        time_error = TimeError.new(api)
+        expect(time_error.error).to eq 100
+      end
+    end
   end
 end
